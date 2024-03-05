@@ -2,6 +2,10 @@ package com.cooksys.ftd.assignments.control;
 
 import com.cooksys.ftd.assignments.control.util.MissingImplementationException;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 
 /**
  * FizzBuzz is an old programming exercise.
@@ -27,7 +31,15 @@ public class FizzBuzz {
      * @throws IllegalArgumentException if b is zero
      */
     public static boolean divides(int a, int b) throws IllegalArgumentException {
-        throw new MissingImplementationException();
+        if (isZero(b)) {
+            throw new IllegalArgumentException();
+        }
+
+        return a % b == 0;
+    }
+
+    private static boolean isZero(int number) {
+        return number == 0;
     }
 
     /**
@@ -42,7 +54,34 @@ public class FizzBuzz {
      * @return a message according to the format above, or null if n is not divisible by either 3 or 5
      */
     public static String message(int n) {
-        throw new MissingImplementationException();
+
+        String result = "";
+
+        if (isNotDivisible3Or5(n)) {
+            return null;
+        }
+
+        if (divides(n, 3)) {
+            result = "Fizz";
+        }
+
+        if (divides(n, 5)) {
+            result = "Buzz";
+        }
+
+        if (isDivisibleBy3And5(n)) {
+            result = "FizzBuzz";
+        }
+
+        return String.format("%s: %s", n, result);
+    }
+
+    private static boolean isDivisibleBy3And5(int n) {
+        return divides(n, 3) && divides(n, 5);
+    }
+
+    private static boolean isNotDivisible3Or5(int n) {
+        return !divides(n, 3) && !divides(n, 5);
     }
 
     /**
@@ -56,7 +95,23 @@ public class FizzBuzz {
      * @throws IllegalArgumentException if the given end is less than the given start
      */
     public static String[] messages(int start, int end) throws IllegalArgumentException {
-        throw new MissingImplementationException();
+
+        if (end < start) {
+            throw new IllegalArgumentException();
+        }
+
+        LinkedList<String> responses = new LinkedList<>();
+
+        while (start != end) {
+            String message = message(start);
+            if (message != null) {
+                responses.add(message(start));
+            }
+
+            start++;
+        }
+
+        return responses.toArray(new String[0]);
     }
 
     /**
