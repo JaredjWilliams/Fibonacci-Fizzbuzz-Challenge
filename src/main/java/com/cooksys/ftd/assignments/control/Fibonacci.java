@@ -1,7 +1,5 @@
 package com.cooksys.ftd.assignments.control;
 
-import com.cooksys.ftd.assignments.control.util.MissingImplementationException;
-
 /**
  * The Fibonacci sequence is simply and recursively defined: the first two elements are `1`, and
  * every other element is equal to the sum of its two preceding elements. For example:
@@ -24,7 +22,11 @@ public class Fibonacci {
      * @throws IllegalArgumentException if the given index is less than zero
      */
     public static int atIndex(int i) throws IllegalArgumentException {
-        throw new MissingImplementationException();
+        if (isNegative(i)) {
+            throw new IllegalArgumentException();
+        }
+
+        return fibonacci(i + 1)[i];
     }
 
     /**
@@ -38,7 +40,37 @@ public class Fibonacci {
      *                                  given end is less than the given start
      */
     public static int[] slice(int start, int end) throws IllegalArgumentException {
-        throw new MissingImplementationException();
+        if (isNegative(start) || isNegative(end)) {
+            throw new IllegalArgumentException();
+        }
+
+        if (isStartGreaterThanEnd(start, end)) {
+            throw new IllegalArgumentException();
+        }
+
+        if (isEqual(start, end)) {
+            return new int[0];
+        }
+
+        int[] slice = new int[end - start];
+
+        for (int i = start; i < end; i++) {
+            slice[i - start] = atIndex(i);
+        }
+
+        return slice;
+    }
+
+    private static boolean isEqual(int numOne, int numTwo) {
+        return numTwo == numOne;
+    }
+
+    private static boolean isStartGreaterThanEnd(int start, int end) {
+        return end < start;
+    }
+
+    private static boolean isNegative(int numOne) {
+        return numOne < 0;
     }
 
     /**
@@ -49,6 +81,29 @@ public class Fibonacci {
      * @throws IllegalArgumentException if the given count is negative
      */
     public static int[] fibonacci(int count) throws IllegalArgumentException {
-        throw new MissingImplementationException();
+        if (isNegative(count)) {
+            throw new IllegalArgumentException();
+        }
+
+        if (isEqual(0, count)) {
+            return new int[0];
+        }
+
+        if (isEqual(1, count)) {
+            return new int[] {1};
+        }
+
+        int[] sequence = new int[count];
+        int[] initialSequence = {1, 1};
+
+        System.arraycopy(initialSequence, 0, sequence, 0, initialSequence.length);
+
+        for (int i = 2; i < count; i++) {
+            sequence[i] = sequence[i - 1] + sequence[i - 2];
+        }
+
+        return sequence;
+
+
     }
 }
